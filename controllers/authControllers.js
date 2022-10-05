@@ -8,8 +8,7 @@ module.exports = {
         let email = req.body.email
         let password = req.body.password
 
-        let login_data = await req.Uc.authUC.login(email, password)
-
+        let login_data = await req.authUC.login(email, password)
         if(!login_data.is_success) {
             res_data.message = login_data.reason
             return res.status(400).json(res_data)
@@ -31,8 +30,9 @@ module.exports = {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
+            address: req.body.address,
             profilePic: req.body.profilePic,
-            address: req.body.address
+            phone: req.body.phone
         }
         let register_data = await req.authUC.register(user_data)
         if(!register_data.is_success) {

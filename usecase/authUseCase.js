@@ -1,26 +1,41 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 
 class Auth {
     constructor(userRepository) {
-        this.userRepository = userRepository;
+        this.userRepository = userRepository
     }
 
-    async generateAccessToken(user_data) {
+    async login(email,password) {
+        let res_data = {
+            is_success: false,
+            reason: "",
+            data: null
+        }
+        let user = await this.userRepository.loginUser(email, password)
+        if(user == null) {
+            res_data.reason = "invalid username or password!"
+            return res_data
+        }
+        res_data.is_success = true
+        res_data.data = this.generateAccessToken(user)
+        return res_data
+    }
+
+    generateAccessToken(user_data) {
         let user = {
             id: user_data.id,
             name: user_data.name,
             email: user_data.email,
             address: user_data.address,
-            profilePic: user_data.profilePic
+            profilePic: user_data.profilePic,
+            phone: user_data.phone
         }
-
         let payload = {
-            user : user,
-            is_admin : user_data.is_admin
+            user: user,
+            is_admin: user_data.is_admin
         }
-
         let jwt_str = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-            expiresIn: '1h'
+            expiresIn: '15m'
         })
         return {
             user: user,
@@ -34,41 +49,24 @@ class Auth {
             reason: "",
             data: null
         }
-
         if(typeof user_data.password !== "string" || typeof  user_data.email !== "string" ) {
             return return_data
         }
         let user = this.userRepository.getUserByEmail(user_data.email)
-        if(user != null) {
+        console.log(user);
+        if(user !== null) {
             return_data.reason = "email already exist!"
+            return return_data;
         }
         user = await this.userRepository.registerUser(user_data)
         if(user == null) {
             return_data.reason = "something went wrong!"
+            return return_data;
         }
         return_data.data = this.generateAccessToken(user)
         return_data.is_success = true
-
         return return_data
-    }
-
-    async login (email, password) {
-        let res_data = {
-            is_success: false,
-            reason: "",
-            data: null
-        }
-
-        let user = await this.userRepository.loginUser(email, password);
-        if(user == null) {
-            res_data.reason = "invalid username or password!"
-            return res_data
-        }
-
-        res_data.is_success = true
-        res_data.data = this.generateAccessToken(user)
-        return res_data
     }
 }
 
-module.exports = Auth;
+module.exports = Auth
