@@ -1,5 +1,6 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
+const authorize = require('../../middlewares/jwt')
 
 const productController = require('../../controllers/productController')
 
