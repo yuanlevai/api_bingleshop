@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 class UserRepository{
     constructor() {
-
+        this.UserModel =  User;
     }
 
         registerUser = async (user_data) => {
@@ -11,7 +11,7 @@ class UserRepository{
             user_data.is_admin = false;
             let user = null;
             try {
-                user = await User.create(user_data)
+                user = await this.UserModel.create(user_data)
             } catch (error) {
                 console.log(error)
                 return null;
@@ -40,8 +40,9 @@ class UserRepository{
         }
 
         async getUserByEmail(email) {
+            let user = null
             try {
-                return await User.findOne({
+                user  = await User.findOne({
                     where: {
                         email: email
                     }
@@ -50,6 +51,7 @@ class UserRepository{
                 console.error(e)
                 return null
             }
+            return user
         }
     }
 
