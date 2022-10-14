@@ -9,7 +9,12 @@ class ProductRepository{
     getAllProducts = async (filters) => {
         if (filters != null) {
             return await this.ProductModel.findAll({
-                where: filters
+                where: filters,
+                include: [
+                    {
+                      model: this.CategoryModel
+                    }
+                ],
             })
         }
         return await this.ProductModel.findAll()
@@ -20,7 +25,12 @@ class ProductRepository{
             data = await this.ProductModel.findOne({
                 where: {
                     id: id
-                }
+                },
+                include: [
+                    {
+                      model: this.CategoryModel
+                    }
+                ],
             })
         } catch (err) {
             console.log(err)

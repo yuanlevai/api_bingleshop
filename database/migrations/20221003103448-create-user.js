@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       phone: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       is_admin: {
         type: Sequelize.BOOLEAN

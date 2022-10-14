@@ -17,10 +17,10 @@ module.exports = {
     },
     create: async (req, res) => {
         let res_data = {
-            status: 'failed',
+            status: "failed",
             message: "",
-            data: null
-        }
+            data: null,
+        };
 
         let category = {
             name: req.body.name,
