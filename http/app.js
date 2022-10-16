@@ -1,5 +1,16 @@
+require('dotenv').config()
+// const use_apm = process.env.USE_APM || false
+// const apm = require('elastic-apm-node').start({
+//     serviceName: process.env.APP_NAME,
+//     environment: 'development',
+//     active: use_apm
+// });
+
+
 const express = require('express')
+const logger = require('morgan');
 const app = express()
+const fs = require('fs')
 
 // import repositories and use cases
 const ProductRepository = require('../repository/productRepo');
@@ -24,9 +35,12 @@ const categoryUC = new CategoryUseCase(new CategoryRepository())
 const productUC = new ProductUseCase(new ProductRepository())
 const userUC = new UserUseCase(new UserRepository())
 
-
 // json
-app.use(express.json())
+app.use(express.json());
+
+app.use(logger('combined', {
+    stream: fs.createWriteStream('./logs/access.log', {flags: 'a'})
+}));
 
 // inject use cases
 app.use((req,res,next) => {

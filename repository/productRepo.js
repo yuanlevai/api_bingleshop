@@ -29,7 +29,7 @@ class ProductRepository{
                 include: [
                     {
                       model: this.CategoryModel
-                    },
+                    }
                 ],
             })
         } catch (err) {

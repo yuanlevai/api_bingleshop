@@ -52,12 +52,12 @@ class Auth {
         if(typeof user_data.password !== "string" || typeof  user_data.email !== "string" ) {
             return return_data
         }
-        let user = this.userRepository.getUserByEmail(user_data.email)
-        console.log(user);
+        let user = await this.userRepository.getUserByEmail(user_data.email)
         if(user !== null) {
             return_data.reason = "email already exist!"
             return return_data;
         }
+
         user = await this.userRepository.registerUser(user_data)
         if(user == null) {
             return_data.reason = "something went wrong!"

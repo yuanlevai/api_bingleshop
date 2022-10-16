@@ -31,9 +31,10 @@ module.exports = {
             email: req.body.email,
             password: req.body.password,
             address: req.body.address,
-            profilePic: req.body.profilePic,
-            phone: req.body.phone
+            phone: req.body.phone,
+            profilePic: req.body.profilePic
         }
+
         let register_data = await req.authUC.register(user_data)
         if(!register_data.is_success) {
             res_data.message = register_data.reason
