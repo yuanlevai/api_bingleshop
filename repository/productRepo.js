@@ -13,8 +13,8 @@ class ProductRepository{
                 include: [
                     {
                       model: this.CategoryModel
-                    }
-                ],
+                    },
+                  ],
             })
         }
         return await this.ProductModel.findAll()

@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt');
 
 class UserRepository{
     constructor() {
-        this.UserModel =  User;
+        this.UserModel = User;
     }
-
+        // auth
         registerUser = async (user_data) => {
             user_data.password = bcrypt.hashSync(user_data.password, 10);
             user_data.is_admin = false;
@@ -49,6 +49,40 @@ class UserRepository{
                 })
             } catch (e) {
                 console.error(e)
+                return null
+            }
+            return user
+        }
+
+
+        // user
+        async getAllUser(filters) {
+            try {
+                if (filters != null) {
+                    return await this.UserModel.findAll({
+                        where: {
+                            is_admin : false
+                        },
+                    })
+                }
+                return await this.UserModel.findAll()
+            } catch (error) {
+                console.error(error);
+                return null
+            }
+        }
+
+        async getUserById(id) {
+            let user = null
+            try {
+                user = await this.UserModel.findOne({
+                    where:{
+                        id: id,
+                        is_admin: false
+                    }
+                })
+            } catch (error) {
+                console.error(error)
                 return null
             }
             return user
