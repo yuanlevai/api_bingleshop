@@ -10,17 +10,19 @@ const UserRepository = require('../repository/userRepo');
 const ProductUseCase = require('../usecase/productUseCase');
 const CategoryUseCase = require('../usecase/categoryUseCase');
 const AuthUseCase = require('../usecase/authUseCase');
-
+const UserUseCase = require('../usecase/userUseCase');
 
 // import routers
 const authRouter = require('./routes/auth');
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
+const userRouter = require('./routes/user')
 
 // init repositories and use cases
 const authUC = new AuthUseCase(new UserRepository())
 const categoryUC = new CategoryUseCase(new CategoryRepository())
 const productUC = new ProductUseCase(new ProductRepository())
+const userUC = new UserUseCase(new UserRepository())
 
 
 // json
@@ -31,6 +33,7 @@ app.use((req,res,next) => {
     req.categoryUC = categoryUC;
     req.productUC = productUC;
     req.authUC = authUC;
+    req.userUC = userUC
     next()
 })
 
@@ -40,6 +43,7 @@ app.get('', function (req, res) {
 })
 
 // init routers
+app.use('/customer', userRouter)
 app.use('/category', categoryRouter)
 app.use('/item', productRouter)
 app.use('/', authRouter)
