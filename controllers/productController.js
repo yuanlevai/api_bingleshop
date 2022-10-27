@@ -4,15 +4,30 @@ module.exports = {
         let products = await req.productUC.getAllProducts(filters);
         if (products == null) {
             products = []
+            return res.status(404).json({
+                code: "404",
+                status: "NOT_FOUND",
+                message : "Product tidak Ditemukan",
+            });
         }
-        res.json(products);
+        res.status(200).json({
+            code: "200",
+            status: "OK",
+            message : "Success",
+            data: products
+        });
     },
     getById: async (req, res) =>{
-      let id = req.params.id;
-      let product = await req.productUC.getProductById(id);
-      if (product == null) {
-          return res.status(400).json(null)
-      }
+        let id = req.params.id;
+        let product = await req.productUC.getProductById(id);
+        if (product == null) {
+            product = []
+            return res.status(404).json({
+                code: "404",
+                status: "NOT_FOUND",
+                message : "Product tidak Ditemukan",
+            });
+    }
       res.json(product);
     },
     create: async (req, res) => {

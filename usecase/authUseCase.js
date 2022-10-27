@@ -35,7 +35,7 @@ class Auth {
             is_admin: user_data.is_admin
         }
         let jwt_str = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-            expiresIn: '15m'
+            expiresIn: '1h'
         })
         return {
             user: user,

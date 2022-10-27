@@ -28,6 +28,7 @@ const authRouter = require('./routes/auth');
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
 const userRouter = require('./routes/user')
+const fileRouter = require('./routes/file')
 
 // init repositories and use cases
 const authUC = new AuthUseCase(new UserRepository())
@@ -58,6 +59,7 @@ app.get('', function (req, res) {
 
 // init routers
 app.use('/customer', userRouter)
+app.use('/file', fileRouter)
 app.use('/category', categoryRouter)
 app.use('/item', productRouter)
 app.use('/', authRouter)
