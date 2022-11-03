@@ -1,7 +1,7 @@
 module.exports = {
     list: async (req, res) =>{
         let filters = req.query
-        let products = await req.productUC.getAllProducts(filters);
+        let products = await req.productUC.getAllProducts(null);
         if (products == null) {
             products = []
             return res.status(404).json({
